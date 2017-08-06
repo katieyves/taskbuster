@@ -102,3 +102,5 @@ ENV/
 
 db.sqlite3
 tb.sublime-workspace
+.coverage
+htmlcov
