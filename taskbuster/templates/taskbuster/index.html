@@ -1,12 +1,13 @@
 {% extends "base.html" %}
+{% load i18n %}
 {% block head_title %}TaskBuster Django Tutorial{% endblock %}
 
 {% block content %}
 <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
       <div class="container">
-        <h1>Hello, world!</h1>
-        <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+        <h1>{% trans "Welcome to TaskBuster!" %}</h1>
+        <p>{% blocktrans %}TaskBuster is a simple task manager that helps you organize your daylife. You can create todo lists, periodic tasks and more! If you want to learn how it was created, or create it yourself, check <a href="http://www.django-tutorial.com">www.django-tutorial.com</a>{% endblocktrans %}</p>
         <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
       </div>
     </div>
@@ -34,4 +35,4 @@
       <hr>
 
     </div> <!-- /container -->   
-    {% endblock %}     
+{% endblock %}     
