@@ -3,6 +3,8 @@ from selenium import webdriver
 from django.core.urlresolvers import reverse
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.utils.translation import activate
+from datetime import date
+from django.utils import formats
  
  
 class NewVisitorTest(StaticLiveServerTestCase):
@@ -39,3 +41,21 @@ class NewVisitorTest(StaticLiveServerTestCase):
             self.browser.get(self.get_full_url("home"))
             h1 = self.browser.find_element_by_tag_name("h1")
             self.assertEqual(h1.text, h1_text)
+
+    def test_localization(self):
+        today = date.today()
+        for lang in ['en', 'ru']:
+            activate(lang)
+            self.browser.get(self.get_full_url("home"))
+            local_date = self.browser.find_element_by_id("local_date")
+            non_local_date = self.browser.find_element_by_id("non_local_date")
+            self.assertEqual(formats.date_format(today, use_l10n=True), local_date.text)
+            self.assertEqual(today.strftime('%Y-%m-%d'), non_local_date.text)
+
+    def test_time_zone(self):
+        self.browser.get(self.get_full_url("home"))
+        tz = self.browser.find_element_by_id("time_tz").text
+        utc = self.browser.find_element_by_id("time_utc").text
+        ny = self.browser.find_element_by_id("time_ny").text
+        self.assertNotEqual(tz, utc)
+        self.assertNotIn(ny, [tz, utc])
